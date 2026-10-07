@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D model, Homebuilt SEM</title>
+<meta name="description" content="Spin the current 3D model of the homebuilt scanning electron microscope, in section or whole.">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.3.1/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="inner">
+    <a class="brand" href="index.html">Homebuilt SEM</a>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="specs.html">Specs</a>
+      <a href="model.html" aria-current="page">3D model</a>
+      <a href="log/m0-paper-design.html">Build log</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wide">
+  <h1>3D model</h1>
+  <p class="lede">Drag to spin, scroll or pinch to zoom. It opens cut in half so you can see inside; switch to Whole to see the outside.</p>
+
+  <div class="viewer-controls">
+    <fieldset>
+      <legend>View</legend>
+      <button type="button" data-cut="section" aria-pressed="true">Section</button>
+      <button type="button" data-cut="full" aria-pressed="false">Whole</button>
+    </fieldset>
+    <fieldset>
+      <legend>Model</legend>
+      <button type="button" data-model="layout" aria-pressed="true">Whole instrument</button>
+      <button type="button" data-model="objective" aria-pressed="false">Objective lens</button>
+      <button type="button" data-model="condenser" aria-pressed="false">Condenser lens</button>
+    </fieldset>
+  </div>
+
+  <model-viewer id="viewer"
+    src="models/layout-section.glb"
+    alt="3D model of the homebuilt scanning electron microscope"
+    camera-controls
+    touch-action="pan-y"
+    interaction-prompt="none"
+    camera-orbit="25deg 78deg auto"
+    exposure="1.1"
+    shadow-intensity="0.5"
+    loading="eager">
+  </model-viewer>
+  <p class="viewer-status" id="status">Loading model…</p>
+
+  <h2>What you are looking at</h2>
+  <p>Grey is steel, copper-coloured blocks are coils, light grey is aluminium, the tan disk is the plastic insulator that holds the gun's high-voltage parts away from everything else, and red is the part that sits at up to 15,000 volts. The sample surface is at the origin and the gun is at the top.</p>
+  <ul>
+    <li><strong>Whole instrument.</strong> Everything stacked up, for seeing how it fits together. The two lenses, the beam tube, the gun and the coil packs are the real first-pass shapes. The chamber, stage, sample stub and turbo pump are placeholders of roughly the right size.</li>
+    <li><strong>Objective lens.</strong> The lens nearest the sample. Three turned steel parts around a coil, with a wide bore in the top for the scan coils and a tapered nose underneath.</li>
+    <li><strong>Condenser lens.</strong> The upper lens, which does the first shrink of the beam. Same three-part construction with a flat lower pole.</li>
+  </ul>
+  <p>These are preliminary shapes, correct for the magnetic design but not yet ready to machine: bolt holes, locating registers, wire exits and seals are still to be added.</p>
+
+  <h3>Download the CAD</h3>
+  <p>STEP files open in Fusion 360, FreeCAD, SolidWorks and most other CAD packages.</p>
+  <ul>
+    <li><a href="models/SEM-LAYOUT-P1.step">Whole instrument layout</a></li>
+    <li><a href="models/SEM-LNS-000-P1_objective-lens-assembly.step">Objective lens assembly</a></li>
+    <li><a href="models/SEM-LNS-010-P1_condenser-lens-assembly.step">Condenser lens assembly</a></li>
+  </ul>
+</main>
+
+<footer class="site">
+  <div class="inner">
+    The detailed engineering notes live in a separate private repository. This site is the friendly overview. Source for the site: <a href="https://github.com/netroutergit/sem-build">github.com/netroutergit/sem-build</a>.
+  </div>
+</footer>
+
+<script>
+(function () {
+  var viewer = document.getElementById("viewer");
+  var status = document.getElementById("status");
+  var names = { layout: "Whole instrument", objective: "Objective lens", condenser: "Condenser lens" };
+  var state = { cut: "section", model: "layout" };
+
+  function select(attr, value) {
+    document.querySelectorAll("button[data-" + attr + "]").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.getAttribute("data-" + attr) === value ? "true" : "false");
+    });
+  }
+
+  function load() {
+    var file = "models/" + state.model + (state.cut === "section" ? "-section" : "") + ".glb";
+    status.textContent = "Loading " + names[state.model].toLowerCase() + "…";
+    viewer.src = file;
+  }
+
+  document.querySelectorAll("button[data-cut]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.cut = b.getAttribute("data-cut");
+      select("cut", state.cut);
+      load();
+    });
+  });
+
+  document.querySelectorAll("button[data-model]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      state.model = b.getAttribute("data-model");
+      select("model", state.model);
+      load();
+    });
+  });
+
+  viewer.addEventListener("load", function () {
+    status.textContent = names[state.model] + ", " + (state.cut === "section" ? "cut in half" : "whole") + ".";
+  });
+  viewer.addEventListener("error", function () {
+    status.textContent = "The model could not be loaded. Try reloading the page.";
+  });
+})();
+</script>
+
+</body>
+</html>

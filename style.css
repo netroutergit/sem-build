@@ -1,0 +1,246 @@
+/* sem-build: one stylesheet, system fonts, works on a phone. */
+
+:root {
+  --text: #1f2429;
+  --muted: #5b6470;
+  --line: #d9dde2;
+  --bg: #ffffff;
+  --panel: #f4f6f8;
+  --accent: #1f5f99;
+  --accent-ink: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+}
+
+header.site {
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+header.site .inner {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 1.2rem;
+}
+
+header.site .brand {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--text);
+  margin-right: auto;
+}
+
+header.site nav a {
+  color: var(--accent);
+  text-decoration: none;
+  padding: 0.2rem 0;
+}
+
+header.site nav a[aria-current="page"] {
+  color: var(--text);
+  font-weight: 600;
+  border-bottom: 2px solid var(--accent);
+}
+
+main {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+main.wide { max-width: 64rem; }
+
+h1 { font-size: 1.9rem; line-height: 1.2; margin: 0.4rem 0 1rem; }
+h2 { font-size: 1.3rem; margin: 2.2rem 0 0.6rem; }
+h3 { font-size: 1.05rem; margin: 1.4rem 0 0.4rem; }
+
+p, ul, ol { margin: 0 0 1rem; }
+li { margin-bottom: 0.3rem; }
+
+a { color: var(--accent); }
+
+.lede { font-size: 1.15rem; color: var(--muted); }
+
+figure {
+  margin: 1.5rem 0;
+}
+
+figure img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+}
+
+figcaption {
+  font-size: 0.92rem;
+  color: var(--muted);
+  margin-top: 0.4rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1.5rem;
+  font-size: 0.97rem;
+}
+
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+th { font-weight: 600; background: var(--panel); }
+
+td.num { white-space: nowrap; font-weight: 600; }
+
+/* phase list on the overview */
+ol.phases { list-style: none; padding: 0; counter-reset: phase; }
+ol.phases li {
+  position: relative;
+  padding: 0.5rem 0.75rem 0.5rem 3rem;
+  border-left: 3px solid var(--line);
+  margin: 0;
+}
+ol.phases li::before {
+  counter-increment: phase;
+  content: counter(phase);
+  position: absolute;
+  left: 0.75rem;
+  top: 0.55rem;
+  width: 1.5rem;
+  text-align: center;
+  font-weight: 700;
+  color: var(--muted);
+}
+ol.phases li.now {
+  border-left-color: var(--accent);
+  background: var(--panel);
+}
+ol.phases li.now::before { color: var(--accent); }
+ol.phases li .tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: 3px;
+  padding: 0 0.4rem;
+  margin-left: 0.4rem;
+  vertical-align: 2px;
+}
+
+/* note box */
+.note {
+  background: var(--panel);
+  border-left: 3px solid var(--accent);
+  padding: 0.7rem 1rem;
+  margin: 1.2rem 0;
+}
+
+/* 3D viewer */
+.viewer-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.4rem;
+  align-items: center;
+  margin: 0 0 0.8rem;
+}
+
+.viewer-controls fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  min-inline-size: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.viewer-controls legend {
+  float: left;
+  padding: 0;
+  margin-right: 0.4rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.viewer-controls button {
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.viewer-controls button[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+model-viewer {
+  width: 100%;
+  height: 70vh;
+  min-height: 420px;
+  background: #eef1f4;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.viewer-status {
+  font-size: 0.92rem;
+  color: var(--muted);
+  min-height: 1.4em;
+  margin: 0.5rem 0 1rem;
+}
+
+footer.site {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+footer.site .inner {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+@media (max-width: 600px) {
+  body { font-size: 16px; }
+  h1 { font-size: 1.6rem; }
+  model-viewer { height: 60vh; min-height: 360px; }
+
+  /* Stack each table row as a small card instead of squeezing three columns. */
+  table tr:first-child { display: none; }
+  table tr { display: block; padding: 0.55rem 0; border-bottom: 1px solid var(--line); }
+  table td { display: block; border: 0; padding: 0.1rem 0; }
+  table td:first-child { font-weight: 600; }
+  table td.num { white-space: normal; color: var(--accent); }
+}

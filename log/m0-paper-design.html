@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paper design, Homebuilt SEM</title>
+<meta name="description" content="Milestone 0 of the homebuilt SEM: the physics worked through on paper and the first parts drawn.">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="inner">
+    <a class="brand" href="../index.html">Homebuilt SEM</a>
+    <nav>
+      <a href="../index.html">Overview</a>
+      <a href="../specs.html">Specs</a>
+      <a href="../model.html">3D model</a>
+      <a href="m0-paper-design.html" aria-current="page">Build log</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Milestone 0: paper design</h1>
+  <p class="lede">October 2026. Before buying anything, work the whole instrument through on paper so that a fundamental problem shows up while it is still free to fix.</p>
+
+  <h2>What got done</h2>
+  <ul>
+    <li><strong>The optics close on paper.</strong> A simple model of the two-lens column predicts a spot of 130 to 255 nm with both lenses running, and about 3 µm with the objective alone. The sub-micron goal is realistic.</li>
+    <li><strong>The lenses were simulated and then drawn.</strong> A free finite-element program (FEMM) that calculates magnetic fields checked the steel shapes. It agrees with the simple model to within about 5%, and the steel stays comfortably below the point where it stops carrying more field. Both lenses now exist as 3D parts, three turned pieces each, and they fit the lathe. See the <a href="../model.html">3D model</a>.</li>
+    <li><strong>The gun insulator was shaped by calculation.</strong> The same kind of field calculation, this time electric, found a shape for the high-voltage parts that stays within safe limits at 15 kV. The insulator will be machined from PEEK, a plastic that is easy to turn and holds off high voltage well.</li>
+    <li><strong>The whole column was laid out.</strong> Every dimension the physics depends on lives in one shared file, which the optics model, the field checks, the cross-section sketch and the CAD scripts all read. Change a number once and everything regenerates.</li>
+    <li><strong>The regulatory question was answered.</strong> Texas exempts electron microscopes from radiation-machine registration by name. The duty to keep X-rays below the limit stays, and the design treats that limit as a hard one.</li>
+  </ul>
+
+  <h2>Surprises</h2>
+  <ul>
+    <li><strong>The gun could not be pumped.</strong> The first layout had the gun's vacuum pulled through the narrow beam tube. Working the numbers showed the tube passes far too little gas, and almost none once the tiny final aperture is fitted. The gun now gets its own hose to the chamber. Caught on paper before any hardware existed.</li>
+    <li><strong>The first gun shape would have arced.</strong> Two places broke the electric-field limit. The obvious fix, a rounded dome resting on the insulator, made it worse. A fat 25 mm stem standing clear of the surface fixed both.</li>
+    <li><strong>A flat lens blocks the X-ray view.</strong> The objective lens sits only 10 mm above the sample, and a future X-ray detector has to look at the sample from about 35 degrees. A flat-bottomed lens was in the way, so the underside now tapers to a 24 mm nose, as it does on commercial instruments.</li>
+    <li><strong>The condenser has a floor.</strong> With its chosen gap and bore it cannot focus shorter than about 4.4 mm, and that is what sets the resolution limit near 130 to 180 nm. Going further would need a smaller bore, a longer column or a third lens.</li>
+  </ul>
+
+  <h2>Next</h2>
+  <p>Measure the stray magnetic field in the workshop where the instrument will stand, since mains hum can push the beam around. Then the first real purchase: a used turbo pump, a backing pump and a gauge, proven on a test volume before anything custom is machined.</p>
+</main>
+
+<footer class="site">
+  <div class="inner">
+    The detailed engineering notes live in a separate private repository. This site is the friendly overview. Source for the site: <a href="https://github.com/netroutergit/sem-build">github.com/netroutergit/sem-build</a>.
+  </div>
+</footer>
+
+</body>
+</html>

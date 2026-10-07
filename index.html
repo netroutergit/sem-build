@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homebuilt SEM</title>
+<meta name="description" content="A scanning electron microscope being designed and built from scratch in a home workshop.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="inner">
+    <a class="brand" href="index.html">Homebuilt SEM</a>
+    <nav>
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="specs.html">Specs</a>
+      <a href="model.html">3D model</a>
+      <a href="log/m0-paper-design.html">Build log</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>A scanning electron microscope, built from scratch</h1>
+  <p class="lede">A hobby project to design and build a working electron microscope in a home workshop: vacuum system, electron gun, magnetic lenses, scan electronics and imaging software.</p>
+
+  <h2>What an SEM is</h2>
+  <p>A scanning electron microscope does not take a picture the way a camera does. It focuses a beam of electrons into a tiny spot, sweeps that spot across the sample line by line, and records one number for each spot position. Lay those numbers out in a grid and you have the image. The smaller the spot, the finer the detail, which is how an SEM sees things far smaller than any light microscope can.</p>
+
+  <figure>
+    <img src="img/sem-block-diagram.png" alt="Block diagram: electron gun, condenser lens, aperture, scan coils, objective lens and sample inside a vacuum, with the scan engine, detector amplifier and PC display outside it">
+    <figcaption>Read it top to bottom on the left, then follow the signal clockwise: the scan engine places the spot, the detector reports what came off the sample, and the PC paints that value at the same spot on the screen.</figcaption>
+  </figure>
+
+  <h2>What this build is</h2>
+  <ul>
+    <li><strong>Electron gun.</strong> A hairpin of tungsten wire heated white hot, held at up to 15,000 volts below ground so the electrons it gives off are flung down the column.</li>
+    <li><strong>Two magnetic lenses.</strong> Each is a coil of copper wire inside a turned steel shell with a precise gap. The magnetic field leaking from the gap bends the electron paths, as a glass lens bends light. Both lenses are made here on the lathe.</li>
+    <li><strong>Vacuum.</strong> Electrons cannot travel through air, so the whole beam path is pumped down to about a hundred-millionth of atmospheric pressure by a turbo pump backed by a small roughing pump.</li>
+    <li><strong>Sample chamber.</strong> A block of aluminium machined on the mill, with bolt-on plates sealed by O-rings so ports can be added or re-cut later.</li>
+    <li><strong>Electronics and software.</strong> Designed from the ground up: an FPGA scan engine that steps the beam and digitises the signal pixel by pixel, precision current supplies for the lenses, a microcontroller for sequencing, and a hard-wired safety interlock chain. A PC application does the imaging.</li>
+  </ul>
+
+  <figure>
+    <img src="img/column-cross-section.png" alt="To-scale cross-section of the instrument from the high-voltage gun at the top, through two magnetic lenses, to the sample chamber and turbo pump at the bottom">
+    <figcaption>A to-scale cross-section from the current design. About 450 mm from the sample to the top of the gun. The lenses are the real first-pass shapes. The chamber, stage and pump are placeholders.</figcaption>
+  </figure>
+
+  <h2>Where it stands</h2>
+  <p>The build runs in seven phases, and the next phase is only started when the previous one has passed a measured test. As of October 2026 the physics has been worked through on paper and the first parts have been drawn in 3D. Nothing has been bought or machined yet.</p>
+
+  <ol class="phases">
+    <li class="now">Paper design. Work the optics out on paper, simulate the lenses, draw the first parts. <span class="tag">Now</span></li>
+    <li>Vacuum. Pumps and gauge proven on a test volume.</li>
+    <li>Gun. High voltage held safely, filament emits, beam current measured.</li>
+    <li>Optics. Chamber, column and lenses built. Focus and steering shown to work.</li>
+    <li>First image. A picture of a copper mesh.</li>
+    <li>Performance. A proper detector, then resolution below one micron.</li>
+    <li>Capability. Automation, then X-ray element identification.</li>
+  </ol>
+  <p>The scan electronics run in parallel with all of this, since they need no vacuum and no beam. See the <a href="log/m0-paper-design.html">build log</a> for what the paper design turned up.</p>
+
+  <h2>Safety</h2>
+  <p>The finished machine contains a lethal high-voltage supply and produces X-rays wherever the beam lands. Both are handled by hardware rather than by procedure: every high-voltage conductor sits inside grounded metal, a relay chain cuts the supply unless the chamber is pumped down and every cover is closed, and the beam path is wrapped in enough metal that a survey meter reads nothing above background.</p>
+</main>
+
+<footer class="site">
+  <div class="inner">
+    The detailed engineering notes live in a separate private repository. This site is the friendly overview. Source for the site: <a href="https://github.com/netroutergit/sem-build">github.com/netroutergit/sem-build</a>.
+  </div>
+</footer>
+
+</body>
+</html>

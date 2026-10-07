@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Specs, Homebuilt SEM</title>
+<meta name="description" content="Headline numbers for the homebuilt scanning electron microscope, each with a one-line plain-English meaning.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="inner">
+    <a class="brand" href="index.html">Homebuilt SEM</a>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="specs.html" aria-current="page">Specs</a>
+      <a href="model.html">3D model</a>
+      <a href="log/m0-paper-design.html">Build log</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Headline numbers</h1>
+  <p class="lede">These are design targets. Nothing has been measured yet, because nothing has been built yet. Each row says what the number means in plain words.</p>
+
+  <h2>The beam</h2>
+  <table>
+    <tr><th>What</th><th>Target</th><th>What it means</th></tr>
+    <tr><td>Beam energy</td><td class="num">5 to 15 kV</td><td>How hard the electrons are flung at the sample. Set by the voltage on the gun. Higher gives a finer spot but more X-rays, so 15 kV is the ceiling.</td></tr>
+    <tr><td>Electron source</td><td class="num">Tungsten hairpin</td><td>A V-shaped tungsten wire heated to about 2,700 K. Electrons boil off the tip. The same kind of filament commercial SEMs used for decades, bought as a consumable.</td></tr>
+    <tr><td>Lenses</td><td class="num">Two, magnetic</td><td>A condenser lens that does the first shrink of the beam, and an objective lens that forms the final focus on the sample. Both are coils in steel shells, made on the lathe.</td></tr>
+    <tr><td>Spot size, predicted</td><td class="num">130 to 255 nm</td><td>How small the beam can be focused with both lenses on. That is the detail the microscope can resolve. A human hair is about 70,000 nm across.</td></tr>
+    <tr><td>Spot size, first image</td><td class="num">about 3 µm</td><td>With only the objective lens running. Coarser, but it carries over a hundred times more current, which makes the first image easy to get.</td></tr>
+    <tr><td>Beam current</td><td class="num">0.5 nA to over 100 nA</td><td>How many electrons per second land on the sample. A smaller spot always carries less current, so the best resolution comes with the weakest signal.</td></tr>
+  </table>
+
+  <h2>The hardware</h2>
+  <table>
+    <tr><th>What</th><th>Target</th><th>What it means</th></tr>
+    <tr><td>Vacuum</td><td class="num">10<sup>-5</sup> Torr</td><td>About one hundred-millionth of atmospheric pressure. Needed so electrons do not scatter off air, the filament does not burn out, and the high voltage does not arc.</td></tr>
+    <tr><td>Pumps</td><td class="num">Turbo plus backing</td><td>A turbomolecular pump, a stack of blades spinning at tens of thousands of rpm, does the hard work. A small backing pump behind it exhausts to air.</td></tr>
+    <tr><td>Column height</td><td class="num">about 450 mm</td><td>From the sample up to the top of the gun. The chamber and the pump hang below that.</td></tr>
+    <tr><td>Objective lens</td><td class="num">114 mm across, 95 mm tall</td><td>Three turned pieces of low-carbon steel around a 1,000-turn coil. The underside is tapered to a 24 mm nose so an X-ray detector can see the sample later.</td></tr>
+    <tr><td>Condenser lens</td><td class="num">110 mm across, 59 mm tall</td><td>Same construction, 1,500-turn coil. Both lenses fit a 12-inch lathe.</td></tr>
+    <tr><td>Sample chamber</td><td class="num">150 mm cube inside</td><td>Machined from aluminium with bolt-on, O-ring-sealed plates, so no welding and no leak detector needed.</td></tr>
+    <tr><td>Samples</td><td class="num">up to about 25 mm</td><td>Sit on the standard half-inch pin stubs every SEM uses. Electrically conductive samples first, such as metal parts and meshes.</td></tr>
+    <tr><td>Scan</td><td class="num">1024 × 1024 pixels</td><td>At 1 microsecond per pixel, a full frame takes about a second. An FPGA steps the beam and samples the detector so every value lands in exactly the pixel it belongs to.</td></tr>
+  </table>
+
+  <h2>The goals, in order</h2>
+  <table>
+    <tr><th>Goal</th><th>Passes when</th></tr>
+    <tr><td>First image</td><td>A copper mesh of known spacing is recognisable, and its measured spacing is within 10% of the real thing.</td></tr>
+    <tr><td>Real detector</td><td>A backscatter diode or a secondary-electron detector gives a cleaner picture than the simplest signal, and a two-metal sample shows which metal is which.</td></tr>
+    <tr><td>Sub-micron resolution</td><td>Detail under 1 µm resolved with both lenses running. Stretch goal: under 200 nm.</td></tr>
+    <tr><td>Automation</td><td>One-command pump-down, a motorised stage, autofocus, and stitched mosaics of many frames.</td></tr>
+    <tr><td>Element identification</td><td>An X-ray detector (EDS) that tells copper from aluminium by the energy of the X-rays each gives off. Budgeted and planned separately, but the chamber is designed so it fits.</td></tr>
+  </table>
+</main>
+
+<footer class="site">
+  <div class="inner">
+    The detailed engineering notes live in a separate private repository. This site is the friendly overview. Source for the site: <a href="https://github.com/netroutergit/sem-build">github.com/netroutergit/sem-build</a>.
+  </div>
+</footer>
+
+</body>
+</html>
