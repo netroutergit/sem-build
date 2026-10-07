@@ -15,6 +15,13 @@ Checks:
     prices paid stay out of this repo as a house rule. Warnings do not
     change the exit code.
 
+  * text files: any word listed in the local banned-word file fails.
+    The file is .git/info/banned-words.txt (one word or phrase per line,
+    case-insensitive, lines starting with # ignored). It is local to this
+    clone and never published, so the list itself stays private.
+    --banned-words FILE points at a different list; --check-message FILE
+    runs only the banned-word check on a commit message.
+
 Skips .git/, intake/ and the usual editor and Python junk. Exit code is
 1 when anything fails, 0 otherwise, so it can gate a commit.
 
@@ -71,6 +78,38 @@ DOLLARS = re.compile(r"(?<![A-Za-z])\$\s?\d[\d,]*(?:\.\d+)?")
 Finding = tuple[str, str, int, str]  # level, path, line, message
 
 
+def load_banned(path: str | None) -> list[str]:
+    """Read the local banned-word list. Missing file means an empty list."""
+    if not path or not os.path.isfile(path):
+        return []
+    words = []
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                words.append(line.lower())
+    return words
+
+
+def banned_hits(text: str, banned: list[str]) -> list[str]:
+    """Banned words that occur in text as whole words (case-insensitive)."""
+    low = text.lower()
+    return [w for w in banned
+            if re.search(r"(?<![a-z0-9])" + re.escape(w) + r"(?![a-z0-9])", low)]
+
+
+def check_message(path: str, banned: list[str]) -> list[Finding]:
+    """Banned-word check on a commit message file (for a commit-msg hook)."""
+    out: list[Finding] = []
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        for n, line in enumerate(fh, 1):
+            if line.startswith("#"):
+                continue  # git's own comment lines
+            for w in banned_hits(line, banned):
+                out.append(("FAIL", "commit message", n, f"banned word: {w}"))
+    return out
+
+
 def git_staged(root: str) -> list[str]:
     out = subprocess.run(
         ["git", "diff", "--cached", "--name-only", "--diff-filter=ACMR", "-z"],
@@ -80,6 +119,16 @@ def git_staged(root: str) -> list[str]:
 
 
 def walk(root: str) -> list[str]:
+    """Every file git would publish: tracked plus untracked-but-not-ignored.
+
+    Falls back to a plain directory walk when root is not a git repo.
+    """
+    if os.path.isdir(os.path.join(root, ".git")):
+        out = subprocess.run(
+            ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+            cwd=root, capture_output=True, check=True).stdout
+        names = [n for n in out.decode("utf-8", "replace").split("\0") if n]
+        return [os.path.join(root, n.replace("/", os.sep)) for n in names]
     paths = []
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = sorted(d for d in dirnames if d not in SKIP_DIRS)
@@ -115,7 +164,7 @@ def check_image(path: str, display: str) -> list[Finding]:
     return out
 
 
-def check_text(path: str, display: str) -> list[Finding]:
+def check_text(path: str, display: str, banned: list[str] = ()) -> list[Finding]:
     out: list[Finding] = []
     try:
         if os.path.getsize(path) > MAX_TEXT_BYTES:
@@ -146,10 +195,12 @@ def check_text(path: str, display: str) -> list[Finding]:
                 out.append(("FAIL", display, n, f"{name}: {snippet}"))
         for m in DOLLARS.finditer(line):
             out.append(("WARN", display, n, f"dollar amount: {m.group(0)}"))
+        for w in banned_hits(line, banned):
+            out.append(("FAIL", display, n, f"banned word: {w}"))
     return out
 
 
-def scan(root: str, paths: list[str]) -> list[Finding]:
+def scan(root: str, paths: list[str], banned: list[str] = ()) -> list[Finding]:
     self_path = os.path.abspath(__file__)
     findings: list[Finding] = []
     for p in paths:
@@ -174,7 +225,12 @@ def scan(root: str, paths: list[str]) -> list[Finding]:
             continue
         if os.path.abspath(p) == self_path:
             continue  # the detector's own regexes would trip the detector
-        findings.extend(check_text(p, display))
+        findings.extend(check_text(p, display, banned))
+    # Banned words apply to file names too, not just contents.
+    for p in paths:
+        if os.path.isfile(p):
+            for w in banned_hits(rel(root, p), banned):
+                findings.append(("FAIL", rel(root, p), 0, f"banned word in file name: {w}"))
     return findings
 
 
@@ -185,11 +241,26 @@ def main(argv=None) -> int:
     p.add_argument("--staged", action="store_true",
                    help="scan only files staged in git, for use as a pre-commit hook")
     p.add_argument("-q", "--quiet", action="store_true", help="print failures only")
+    p.add_argument("--banned-words", default=None,
+                   help="word list file (default: .git/info/banned-words.txt under --root)")
+    p.add_argument("--check-message", default=None, metavar="FILE",
+                   help="check only this commit-message file against the banned words")
     a = p.parse_args(argv)
 
     root = os.path.abspath(a.root)
+    banned = load_banned(a.banned_words or os.path.join(root, ".git", "info", "banned-words.txt"))
+
+    if a.check_message:
+        findings = check_message(a.check_message, banned)
+        for _, where, line, msg in findings:
+            print(f"FAIL  {where}:{line}  {msg}")
+        if findings:
+            print("NOT CLEAN. Reword the commit message.")
+            return 1
+        return 0
+
     paths = git_staged(root) if a.staged else walk(root)
-    findings = scan(root, paths)
+    findings = scan(root, paths, banned)
 
     fails = [f for f in findings if f[0] == "FAIL"]
     warns = [f for f in findings if f[0] == "WARN"]
