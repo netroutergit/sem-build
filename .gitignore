@@ -1,0 +1,25 @@
+# Quarantine for files copied from the private repo that have not yet been
+# reviewed and cleaned. Nothing in here is ever committed.
+intake/
+
+# Original photos and anything with metadata still attached
+*.heic
+*.HEIC
+*.raw
+*.cr2
+*.dng
+*-original.*
+*_original.*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editors and OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
