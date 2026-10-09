@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vacuum, Homebuilt SEM</title>
+<meta name="description" content="Milestone 2 of the homebuilt SEM: a used turbo pump, backing pump and gauge, bought and proven on a test volume.">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="inner">
+    <a class="brand" href="../index.html">Homebuilt SEM</a>
+    <nav>
+      <a href="../index.html">Overview</a>
+      <a href="../specs.html">Specs</a>
+      <a href="../model.html">3D model</a>
+      <a href="../electronics.html">Electronics</a>
+      <a href="index.html" aria-current="page">Build log</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Milestone 2: vacuum</h1>
+  <p class="lede">October 2026. The first real purchase: a turbo pump, a backing pump and a gauge, all bought used and to be proven on a blanked-off test before anything custom is cut. Parts are ordered. The test comes when they arrive.</p>
+
+  <p class="note">Why this is milestone 2 and not 1: milestone 1 is the scan engine, which is pure electronics and runs in parallel. See the <a href="../electronics.html">electronics page</a>.</p>
+
+  <h2>What was bought</h2>
+  <ul>
+    <li><strong>Turbo pump: Edwards EXT75DX.</strong> A turbomolecular pump is a stack of bladed rotors spinning at tens of thousands of rpm that bats gas molecules downward and out. This one moves 61 litres of gas per second at its inlet, has its drive electronics built into the pump body, and runs from 24 volts. The inlet is an ISO 63 flange, a flat 95 mm face sealed by an O-ring and held by claw clamps. Pumps like this turn up on the surplus market from retired mass spectrometers, which is where this one came from.</li>
+    <li><strong>Backing pump: a KNF dry diaphragm pump.</strong> A turbo cannot exhaust straight to air. The backing pump takes the system from atmosphere down to about half a Torr and then carries away whatever the turbo pushes out. A diaphragm pump has no oil anywhere, so nothing can creep back up the line toward the column.</li>
+    <li><strong>Gauge: an Inficon MPG400 full-range gauge.</strong> Two sensors in one body. A Pirani sensor measures how well the thin gas conducts heat away from a wire, and works from atmosphere down to rough vacuum. A cold-cathode sensor holds a glow discharge in a magnetic field and measures its current, and works from there down to a hundred-millionth of a Torr. The gauge switches between them on its own and puts out one voltage that the controller reads.</li>
+    <li><strong>A 24 volt supply.</strong> An industrial DIN-rail supply that will be the only 24 volt source in the finished machine. It was bought early because the turbo draws 5 amps while it spins up, more than the bench supply on hand could give.</li>
+    <li><strong>Fittings for the test.</strong> All stainless: an adapter from the pump's ISO 63 inlet down to the smaller KF40 family, a KF40 tee, blank flanges, clamps and centring rings, and a flexible bellows hose from the turbo's exhaust to the backing pump. Every piece is reused on the real chamber afterwards.</li>
+  </ul>
+
+  <h2>Why these</h2>
+  <ul>
+    <li><strong>Used, with a return window.</strong> A worn turbo bearing is the most likely way to lose money on this project, so the pump was only bought from a seller who takes returns, and the test below runs inside that window.</li>
+    <li><strong>Drive electronics built in.</strong> Many surplus turbos need a separate controller box that costs as much as the pump and is easy to mismatch. This one needs only 24 volts and a start signal.</li>
+    <li><strong>A pump that tolerates a diaphragm backing pump.</strong> Older pure-turbo designs need an oil pump behind them. This one has an extra drag stage that lets it exhaust at a few Torr, which a small dry pump can handle.</li>
+    <li><strong>From laboratory use.</strong> Pumps from chip-making tools can carry corrosive residue. Mass spectrometer pumps have only ever seen clean gas.</li>
+  </ul>
+
+  <h2>What the numbers said</h2>
+  <p>The first candidate was the same pump with a smaller KF40 inlet. Working the numbers showed why that mattered more than it looked. A pump only delivers its rated speed at its own flange. The gas must first get through the hole in the chamber wall, and a hole's capacity scales with its area. Through a 12.5 mm plate a 35 mm hole passes roughly 85 litres per second and a 63 mm hole roughly 300. So the small inlet would have lost about 40% at the chamber, the large one about 15%, and the small-inlet pump would have delivered about half the effective speed of the large one. Both would reach the vacuum the gun needs, but the small one would sit near the limit for the first hour after every sample change. Holding out for the ISO 63 inlet was the right call.</p>
+
+  <table>
+    <tr><th>Pump inlet</th><th>Speed at the chamber</th><th>Chamber pressure, first hours</th></tr>
+    <tr><td>KF40, 35 mm hole</td><td class="num">about 26 L/s</td><td>8 × 10<sup>-6</sup> Torr</td></tr>
+    <tr><td>ISO 63, 63 mm hole</td><td class="num">about 51 L/s</td><td>4 × 10<sup>-6</sup> Torr</td></tr>
+  </table>
+
+  <h2>Surprises</h2>
+  <ul>
+    <li><strong>The gauge is a magnet.</strong> Its cold-cathode sensor holds a glow discharge with a strong permanent magnet. Stray magnetic fields bend the electron beam, so the gauge has to mount on the pumping line, well away from the column, and gets included in the magnetic survey of the finished machine.</li>
+    <li><strong>The backing pump has a pipe thread, not a flange.</strong> Its inlet is a small threaded hole in the manifold. The thread will be read off the pump when it arrives before the adapter to the vacuum hose is final.</li>
+    <li><strong>Listing photos beat spec sheets.</strong> The gauge turned out to carry a KF40 flange rather than the KF25 assumed in the test plan, and the first candidate turbo's inlet turned out to be KF40 rather than ISO 63. Both were caught from the photos and the manufacturers' part lists before anything was ordered around them.</li>
+  </ul>
+
+  <h2>The test</h2>
+  <p>Cap the turbo's inlet with the adapter, the tee, the gauge and a blank, connect the backing pump through the bellows hose, and run it from the 24 volt supply on an open bench. The pump should reach full speed in a few minutes without unusual noise, vibration or heat. The pass mark is a pressure below one millionth of a Torr with nothing but the gauge on the inlet. A tired pump stalls well above that.</p>
+  <p>Results will be added here when the parts have arrived and the test has run.</p>
+
+  <h2>Next</h2>
+  <p>Run the acceptance test. In the meantime the electronics design carries on, since none of it needs a vacuum.</p>
+</main>
+
+<footer class="site">
+  <div class="inner">
+    The detailed engineering notes live in a separate private repository. This site is the friendly overview. Source for the site: <a href="https://github.com/netroutergit/sem-build">github.com/netroutergit/sem-build</a>.
+  </div>
+</footer>
+
+</body>
+</html>

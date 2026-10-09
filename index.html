@@ -16,7 +16,8 @@
       <a href="index.html" aria-current="page">Overview</a>
       <a href="specs.html">Specs</a>
       <a href="model.html">3D model</a>
-      <a href="log/m0-paper-design.html">Build log</a>
+      <a href="electronics.html">Electronics</a>
+      <a href="log/index.html">Build log</a>
     </nav>
   </div>
 </header>
@@ -39,7 +40,7 @@
     <li><strong>Two magnetic lenses.</strong> Each is a coil of copper wire inside a turned steel shell with a precise gap. The magnetic field leaking from the gap bends the electron paths, as a glass lens bends light. Both lenses are made here on the lathe.</li>
     <li><strong>Vacuum.</strong> Electrons cannot travel through air, so the whole beam path is pumped down to about a hundred-millionth of atmospheric pressure by a turbo pump backed by a small roughing pump.</li>
     <li><strong>Sample chamber.</strong> A block of aluminium machined on the mill, with bolt-on plates sealed by O-rings so ports can be added or re-cut later.</li>
-    <li><strong>Electronics and software.</strong> Designed from the ground up: an FPGA scan engine that steps the beam and digitises the signal pixel by pixel, precision current supplies for the lenses, a microcontroller for sequencing, and a hard-wired safety interlock chain. A PC application does the imaging.</li>
+    <li><strong>Electronics and software.</strong> Designed from the ground up: an FPGA scan engine that steps the beam and digitises the signal pixel by pixel, precision current supplies for the lenses, a microcontroller for sequencing, and a hard-wired safety interlock chain. A PC application does the imaging. See the <a href="electronics.html">electronics page</a> for how it fits together.</li>
   </ul>
 
   <figure>
@@ -49,18 +50,18 @@
 
   <h2>Where it stands</h2>
   <p>The idea has been around for years, sketched and shelved more than once. Two things finally made it a project in October 2026. The skills it needs, turning and milling, PCB design and software, had all come together in one workshop. And writing things down stopped being the bottleneck: with AI tools turning working notes into a proper design record in minutes, the calculations, decisions and surprises get captured as they happen. Left to itself, this project would never have been written down, and without that record there is no plan to hold it to.</p>
-  <p>The build runs in seven phases, and the next phase is only started when the previous one has passed a measured test. As of October 2026 the physics has been worked through on paper and the first parts have been drawn in 3D. Nothing has been bought or machined yet.</p>
+  <p>The build runs in seven phases, and the next phase is only started when the previous one has passed a measured test. As of October 2026 the physics has been worked through on paper, the first parts have been drawn in 3D, and the vacuum pumps and gauge have been bought used and are on their way. Nothing has been machined yet.</p>
 
   <ol class="phases">
-    <li class="now">Paper design. Work the optics out on paper, simulate the lenses, draw the first parts. <span class="tag">Now</span></li>
-    <li>Vacuum. Pumps and gauge proven on a test volume.</li>
+    <li>Paper design. Work the optics out on paper, simulate the lenses, draw the first parts. <span class="tag">Done</span></li>
+    <li class="now">Vacuum. Pumps and gauge proven on a test volume. Parts bought, test next. <span class="tag">Now</span></li>
     <li>Gun. High voltage held safely, filament emits, beam current measured.</li>
     <li>Optics. Chamber, column and lenses built. Focus and steering shown to work.</li>
     <li>First image. A picture of a copper mesh.</li>
     <li>Performance. A proper detector, then resolution below one micron.</li>
     <li>Capability. Automation, then X-ray element identification.</li>
   </ol>
-  <p>The scan electronics run in parallel with all of this, since they need no vacuum and no beam. See the <a href="log/m0-paper-design.html">build log</a> for what the paper design turned up.</p>
+  <p>The scan electronics run in parallel with all of this, since they need no vacuum and no beam. See the <a href="log/index.html">build log</a> for what each milestone turned up.</p>
 
   <h2>Safety</h2>
   <p>The finished machine contains a lethal high-voltage supply and produces X-rays wherever the beam lands. Both are handled by hardware rather than by procedure: every high-voltage conductor sits inside grounded metal, a relay chain cuts the supply unless the chamber is pumped down and every cover is closed, and the beam path is wrapped in enough metal that a survey meter reads nothing above background.</p>

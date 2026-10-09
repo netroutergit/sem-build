@@ -16,14 +16,15 @@
       <a href="index.html">Overview</a>
       <a href="specs.html" aria-current="page">Specs</a>
       <a href="model.html">3D model</a>
-      <a href="log/m0-paper-design.html">Build log</a>
+      <a href="electronics.html">Electronics</a>
+      <a href="log/index.html">Build log</a>
     </nav>
   </div>
 </header>
 
 <main>
   <h1>Headline numbers</h1>
-  <p class="lede">These are design targets. Nothing has been measured yet, because nothing has been built yet. Each row says what the number means in plain words.</p>
+  <p class="lede">These are design targets. Nothing has been measured yet; the first measurement will be the vacuum test. Each row says what the number means in plain words.</p>
 
   <h2>The beam</h2>
   <table>
@@ -39,8 +40,10 @@
   <h2>The hardware</h2>
   <table>
     <tr><th>What</th><th>Target</th><th>What it means</th></tr>
-    <tr><td>Vacuum</td><td class="num">10<sup>-5</sup> Torr</td><td>About one hundred-millionth of atmospheric pressure. Needed so electrons do not scatter off air, the filament does not burn out, and the high voltage does not arc.</td></tr>
-    <tr><td>Pumps</td><td class="num">Turbo plus backing</td><td>A turbomolecular pump, a stack of blades spinning at tens of thousands of rpm, does the hard work. A small backing pump behind it exhausts to air.</td></tr>
+    <tr><td>Vacuum</td><td class="num">10<sup>-5</sup> Torr</td><td>About one hundred-millionth of atmospheric pressure. Needed so electrons do not scatter off air, the filament does not burn out, and the high voltage does not arc. The pump bought should hold the chamber near 4 × 10<sup>-6</sup> Torr, a little better than needed.</td></tr>
+    <tr><td>Turbo pump</td><td class="num">Edwards EXT75DX, 61 L/s</td><td>A turbomolecular pump, a stack of blades spinning at tens of thousands of rpm, does the hard work. Bought used, drive electronics built in, 95 mm inlet flange. See <a href="log/m2-vacuum.html">milestone 2</a>.</td></tr>
+    <tr><td>Backing pump</td><td class="num">KNF dry diaphragm</td><td>Takes the chamber from atmosphere to about half a Torr and carries away the turbo's exhaust. No oil anywhere, so nothing can creep back toward the column.</td></tr>
+    <tr><td>Gauge</td><td class="num">Inficon MPG400</td><td>One gauge that reads from atmosphere down to a hundred-millionth of a Torr, by combining two sensors in one body and switching between them on its own.</td></tr>
     <tr><td>Column height</td><td class="num">about 450 mm</td><td>From the sample up to the top of the gun. The chamber and the pump hang below that.</td></tr>
     <tr><td>Objective lens</td><td class="num">114 mm across, 95 mm tall</td><td>Three turned pieces of low-carbon steel around a 1,000-turn coil. The underside is tapered to a 24 mm nose so an X-ray detector can see the sample later.</td></tr>
     <tr><td>Condenser lens</td><td class="num">110 mm across, 59 mm tall</td><td>Same construction, 1,500-turn coil. Both lenses fit a 12-inch lathe.</td></tr>
