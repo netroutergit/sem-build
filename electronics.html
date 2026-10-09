@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electronics, Homebuilt SEM</title>
+<meta name="description" content="How the homebuilt SEM's electronics are split up: the boxes, the cables between them, the hard-wired safety interlock, and the boards to be designed.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="inner">
+    <a class="brand" href="index.html">Homebuilt SEM</a>
+    <nav>
+      <a href="index.html">Overview</a>
+      <a href="specs.html">Specs</a>
+      <a href="model.html">3D model</a>
+      <a href="electronics.html" aria-current="page">Electronics</a>
+      <a href="log/index.html">Build log</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wide">
+  <h1>Electronics</h1>
+  <p class="lede">How the electronics are split up, what talks to what, and the one circuit that is allowed to switch on the high voltage. Nothing on this page has been built yet.</p>
+
+  <p class="note">This page is a snapshot of the current design, not a history. The design will change many times before a board is ordered. When it does, the diagrams here are replaced and the reasons rewritten. Last revised October 2026.</p>
+
+  <h2>Three layers</h2>
+  <p>Everything electronic in the instrument sits in one of three layers, chosen by how fast it has to react.</p>
+  <ul>
+    <li><strong>The scan engine, an FPGA.</strong> An FPGA is a chip whose logic is wired up by the designer rather than fixed at the factory, so it does many things at once with exact timing. It steps the beam across the sample and samples the detector once per pixel, a million times a second, and streams the frame to the PC.</li>
+    <li><strong>The machine controller, a microcontroller.</strong> Everything slow: pumping down, reading the gauge, setting lens currents, lighting the status display. Ordinary firmware.</li>
+    <li><strong>The interlock chain, relays only.</strong> No firmware at all. It is the only thing that can permit the high voltage and the filament. The FPGA and the microcontroller can ask for high voltage off at any time, but neither can force it on.</li>
+  </ul>
+
+  <h2>The boxes and the cables</h2>
+  <figure>
+    <img src="img/system-interconnect.png" alt="System interconnect diagram: a hidden machine box in the pedestal, a front panel, a grounded high-voltage box, a grounded gun can, the column and chamber, a signal box at the chamber, and the PC, with the cables between them coloured by class">
+    <figcaption>Boxes are enclosures. Lines are cables, coloured by what they carry: mains, 24 volt power and control, isolated signals, high voltage, and chassis bonding straps. Pin-outs are deliberately left off.</figcaption>
+  </figure>
+  <ul>
+    <li><strong>Machine box, hidden in the pedestal.</strong> Mains comes in through a filter and a master contactor. One industrial 24 volt supply feeds everything: turbo, gauge, valves, relays and the high-voltage module. Every other rail is made locally on the board that needs it. The interlock chain and the machine controller live here.</li>
+    <li><strong>Panel.</strong> A key switch, an emergency stop, a reset button, four lamps and a status display. The lamps are driven by relay contacts, not by software, so they tell the truth even if the controller is dead.</li>
+    <li><strong>High-voltage box and gun can.</strong> Both grounded metal. The 15 kV supply, its series resistor and the shorting relay are in the box. The gun's terminal and its floating filament supply are in the can on top of the column. Each has a lid switch in the interlock chain, because the air side of the gun is the one place 15 kV exists outside the vacuum.</li>
+    <li><strong>Column and chamber.</strong> Grounded metal and the single analog ground point of the instrument. The lens coils, scan coils and detectors are here, so the signal box sits right beside it with short shielded leads to the feedthroughs.</li>
+    <li><strong>Signal box, at the chamber.</strong> The FPGA on a carrier board, the scan drivers and the detector front ends. Fast, small signals stay close to where they are made.</li>
+    <li><strong>PC.</strong> No ground connection to the instrument at all. The FPGA streams frames over Ethernet, which is isolated by the transformers in every Ethernet port. The controller talks over a USB serial link through an isolator. Two cables, both floating, so a gun arc cannot find a path through the computer.</li>
+  </ul>
+  <p>Every cable from the machine box to the column carries a clamp at the chamber wall and a protection device at the board, because an arc in the gun throws a fast pulse into anything connected to it.</p>
+
+  <h2>The interlock chain</h2>
+  <figure>
+    <img src="img/interlock-chain.png" alt="Ladder diagram of the interlock chain: key switch, emergency stop, cover switches, turbo-at-speed, pressure-OK and controller-permit contacts in series feeding the permit relay, with a latching reset, status outputs, and the loads the permit relay switches">
+    <figcaption>Read it left to right along the top rail. Current has to pass through every switch and relay contact in series to reach the coil of the permit relay. Anything open, dropped or unplugged and the permit is gone.</figcaption>
+  </figure>
+  <ul>
+    <li><strong>Everything is de-energize-to-trip.</strong> An open door, a dropped relay, an unplugged cable or a dead supply all look the same: the chain opens and high voltage goes off. There is no state in which a fault leaves the gun live.</li>
+    <li><strong>The links.</strong> A key switch. The emergency stop. A safety switch on the chamber door, the gun can lid, the high-voltage box lid and any further cover. A relay that only closes when the turbo reports it is at full speed. A relay that only closes when the gauge reads below the threshold and its cold cathode has actually lit, so an unlit gauge can never pass as vacuum. And a relay held in by the controller.</li>
+    <li><strong>The controller's permit is a heartbeat, not a level.</strong> The controller must toggle a line a few times a second. A one-shot keeps the relay in only while the toggling continues, so a crashed controller, a stuck pin or a pulled cable drops the high voltage within about a second. Nothing the controller can do closes any other link.</li>
+    <li><strong>It latches.</strong> After any trip the chain stays open until someone presses reset with every link closed. A door that closes again does not bring the gun back by itself.</li>
+    <li><strong>What the permit relay switches.</strong> The enable line and the 24 volt feed to the high-voltage module, so the module is unpowered when the chain is open regardless of the enable pin. The permit to the filament supply. And the coil of a shorting relay in the high-voltage box, whose normally closed contact grounds the high-voltage node through a discharge resistor whenever the chain is open or the relay loses power.</li>
+    <li><strong>Status can only go out.</strong> The controller gets an opto-isolated copy of every node for logging and the display, and the panel lamps are relay contacts. Neither path can close the chain.</li>
+  </ul>
+  <p>The permit relay is a force-guided safety relay, the kind whose contacts are mechanically linked so that a welded contact shows up on the auxiliary contact instead of silently holding the gun live. The acceptance test for this board is simple: every input, opened in turn, must take the measured high voltage below 50 volts within one second.</p>
+
+  <h2>The boards</h2>
+  <p>Six designs, about ten boards once the replicated ones are counted. One board outline and one connector family for all of them. The FPGA and microcontroller are bought modules on custom carriers rather than laid out from scratch.</p>
+  <table>
+    <tr><th>Board</th><th>What it does</th></tr>
+    <tr><td>Interlock chain</td><td>The relay logic above. No firmware. The first board to be drawn.</td></tr>
+    <tr><td>Controller carrier</td><td>The microcontroller, its power, and the connectors to the gauge, turbo, valves and panel.</td></tr>
+    <tr><td>Scan and acquisition</td><td>Digital-to-analog converters for the scan coils, the detector analog-to-digital converter, and the FPGA carrier.</td></tr>
+    <tr><td>Coil driver, replicated</td><td>A precision current source. One per lens, stigmator and alignment coil, because a lens current that wanders by a part in ten thousand moves the focus.</td></tr>
+    <tr><td>Floating filament supply</td><td>Heats the filament while sitting at 15 kV below ground. See below.</td></tr>
+    <tr><td>Detector front end, replicated</td><td>A low-noise amplifier for the specimen current and the backscatter diode, later the photomultiplier electronics.</td></tr>
+  </table>
+
+  <h2>Decisions, and the reasons behind them</h2>
+  <ul>
+    <li><strong>One 24 volt rail, everything else local.</strong> One supply to buy, one thing to fuse, and every board makes its own clean analog rails from it where they are used. There is no 12 volt rail because nothing needs one.</li>
+    <li><strong>Heating the filament across 15 kV with a transformer and light.</strong> The filament sits at the gun voltage, so its power has to cross a 15 kV barrier. The plan is a hand-wound transformer on a grounded ferrite ring: a 24 volt primary driven at high frequency, and a secondary of a few loose turns of 30 kV silicone wire whose insulation is the whole barrier. On the floating side a rectifier, a current regulator and a small microcontroller. The permit and setpoint come in over one plastic optical fibre and status goes back over another. No light, no filament. An earlier idea, a battery floating at gun voltage, was dropped: nothing to charge, nothing to run flat.</li>
+    <li><strong>Ethernet for the pictures, isolated serial for the controller.</strong> A frame is a megabyte and comes once a second, so Ethernet is the natural fit, and its port transformers give isolation for free. The controller has little to say and gets a slower link through a USB isolator. Both leave the PC ungrounded to the instrument.</li>
+    <li><strong>Relays for safety, not firmware.</strong> Firmware can have bugs, hang, or be mid-update. A relay chain fails only one way, open, and can be tested with a switch and a meter.</li>
+    <li><strong>Panel lamps from relay contacts.</strong> The lamp that says the chain is closed is wired to the chain. It cannot disagree with reality.</li>
+    <li><strong>Bought modules on custom carriers.</strong> Laying out a modern FPGA with its memory and power is a project in itself. A commercial module does that; the carrier only has to route its pins to the instrument's connectors.</li>
+  </ul>
+</main>
+
+<footer class="site">
+  <div class="inner">
+    The detailed engineering notes live in a separate private repository. This site is the friendly overview. Source for the site: <a href="https://github.com/netroutergit/sem-build">github.com/netroutergit/sem-build</a>.
+  </div>
+</footer>
+
+</body>
+</html>
