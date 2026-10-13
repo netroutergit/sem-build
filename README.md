@@ -1,8 +1,9 @@
-# Homebuilt scanning electron microscope
+# Gray SEM, a homebuilt scanning electron microscope
 
 A hobby project to design and build a working scanning electron microscope
 (SEM) from scratch: vacuum system, electron gun, magnetic lenses, scan
-electronics and imaging software.
+electronics and imaging software. The instrument is the Gray SEM, the first
+of a family of instruments named Gray.
 
 This site is the friendly overview: what it is, how far along it is, a 3D
 model to look at, and photos of the parts as they get made. The detailed
