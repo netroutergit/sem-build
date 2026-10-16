@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Vacuum, Gray SEM</title>
-<meta name="description" content="Milestone 2 of the Gray SEM: a used turbo pump, backing pump and gauge, bought and proven on a test volume.">
+<meta name="description" content="Milestone 2 of the Gray SEM: a used turbo pump, backing pump and gauge, bought, checked over and assembled into a test stack.">
 <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
 
 <main>
   <h1>Milestone 2: vacuum</h1>
-  <p class="lede">October 2026. The first purchase made to the written plan: a turbo pump, a backing pump and a gauge, all bought used and to be proven on a blanked-off test before anything custom is cut. Parts are ordered. The test comes when they arrive.</p>
+  <p class="lede">October 2026. The first purchase made to the written plan: a turbo pump, a backing pump and a gauge, all bought used and to be proven on a blanked-off test before anything custom is cut. The parts have arrived and passed their first looks. The pump-down waits on two small fittings.</p>
 
   <p class="note">Why this is milestone 2 and not 1: milestone 1 is the scan engine, which is pure electronics and runs in parallel. See the <a href="../electronics.html">electronics page</a>.</p>
 
@@ -36,6 +36,16 @@
     <li><strong>A 24 volt supply.</strong> An industrial DIN-rail supply that will be the only 24 volt source in the finished machine. It was bought early because the turbo draws 5 amps while it spins up, more than the bench supply on hand could give.</li>
     <li><strong>Fittings for the test.</strong> All stainless: an adapter from the pump's ISO 63 inlet down to the smaller KF40 family, a KF40 tee, blank flanges, clamps and centring rings, and a flexible bellows hose from the turbo's exhaust to the backing pump. Every piece is reused on the real chamber afterwards.</li>
   </ul>
+
+  <figure>
+    <img src="../img/m2-turbo.jpg" alt="The Edwards EXT75DX turbo pump on a wooden bench, inlet screen uppermost, with its captive cable and 15-way plug coiled beside it">
+    <figcaption>The turbo pump as it arrived. The mesh over the inlet keeps dropped screws out of the rotor. The finned block on the side is the drive electronics, and the whole thing runs from the one cable.</figcaption>
+  </figure>
+
+  <figure>
+    <img src="../img/m2-backing-pump.jpg" alt="The KNF diaphragm backing pump on the bench: four finned pump heads around a motor, linked by braided hoses">
+    <figcaption>The backing pump. Four diaphragm heads around one motor, linked in pairs by the braided hoses. No oil anywhere. It was built in 2008 and still sounds right.</figcaption>
+  </figure>
 
   <h2>Why these</h2>
   <ul>
@@ -57,16 +67,38 @@
   <h2>Surprises</h2>
   <ul>
     <li><strong>The gauge is a magnet.</strong> Its cold-cathode sensor holds a glow discharge with a strong permanent magnet. Stray magnetic fields bend the electron beam, so the gauge has to mount on the pumping line, well away from the column, and gets included in the magnetic survey of the finished machine.</li>
-    <li><strong>The backing pump has a pipe thread, not a flange.</strong> Its inlet is a small threaded hole in the manifold. The thread will be read off the pump when it arrives before the adapter to the vacuum hose is final.</li>
+    <li><strong>The backing pump has a pipe thread, not a flange.</strong> Its inlet is a small threaded hole in the manifold, and the first adapter bought for it was wrong. The US manual pointed at a tapered NPT thread. That adapter bound after two turns, and a machined flat face around the port gave the game away: it is a parallel G 1/8 thread, sealed by a washer rather than by the taper. The right adapter is on its way.</li>
     <li><strong>Listing photos beat spec sheets.</strong> The gauge turned out to carry a KF40 flange rather than the KF25 assumed in the test plan, and the first candidate turbo's inlet turned out to be KF40 rather than ISO 63. Both were caught from the photos and the manufacturers' part lists before anything was ordered around them.</li>
   </ul>
 
+  <h2>First checks</h2>
+  <p>A used turbo is bought on trust, so the first thing to do is look. The inlet screen lifts out with a hook. Under a light the blades of the top rotor stage are complete, with no chips and no scuffs on the rim or the bore. The rotor spins freely by hand and does not catch, and there is no play when it is rocked sideways. Those are the three hand checks from the acceptance test, and all three passed.</p>
+
+  <figure>
+    <img src="../img/m2-turbo-rotor.jpg" alt="Close-up of the turbo inlet with the screen removed: the rotor hub and the first row of blades, and the flat ISO 63 flange face around them">
+    <figcaption>Inlet screen out. The hub and the first row of blades, with the flat flange face the O-ring seals against. A small nick on the outer chamfer of the flange is outside the seal track, so it does not matter.</figcaption>
+  </figure>
+
+  <p>Two things on the rotor looked like trouble and were not. A black dot on one blade is the mark the factory balancing machine watches to know where the rotor is in its turn, so it stays. Faint smears on two neighbouring blades only show at a glancing angle, which makes them a film on the surface rather than contact damage. Nothing on the blades gets wiped.</p>
+  <p>The backing pump was run from the wall on the open bench. It settled to an even note with no knocking. Held against a flat test piece and then switched off, it kept hold of the piece by suction, which means the valves seal with the motor stopped. A worn diaphragm pump lets go within seconds.</p>
+  <p>The gauge was unboxed, its label checked, and nothing more. The warning ring around its base is for the cold-cathode magnet.</p>
+
+  <h2>The test stack</h2>
+  <p>With the fittings in, the inlet side of the test was assembled on the turbo: screen refitted, centring ring on the flange, the adapter down to the smaller KF40 size held by four claw clamps tightened in a cross, then the tee, the gauge standing on top and a blank on the side branch, each on a centring ring and clamp. Gloves and lint-free wipes throughout, because a fingerprint inside a vacuum system takes hours to pump away.</p>
+
+  <figure>
+    <img src="../img/m2-test-stack.jpg" alt="The assembled test stack standing on the bench: the turbo pump at the bottom, the ISO 63 to KF40 adapter held by four claw clamps, a KF40 tee above it with the Inficon gauge on top and a blank flange on the side branch">
+    <figcaption>The test stack. Turbo at the bottom, adapter and claw clamps, then the tee with the gauge on top and a blank on the branch. The tee is the whole test volume. On the finished machine it moves to the chamber and carries the gauge and the vent valve.</figcaption>
+  </figure>
+
+  <p>The stack is standing on the pump's rubber feet. Before the rotor ever turns, the base gets bolted down through its tapped holes: a turbo at full speed stores enough energy that it must never be free to move.</p>
+
   <h2>The test</h2>
   <p>Cap the turbo's inlet with the adapter, the tee, the gauge and a blank, connect the backing pump through the bellows hose, and run it from the 24 volt supply on an open bench. The pump should reach full speed in a few minutes without unusual noise, vibration or heat. The pass mark is a pressure below one millionth of a Torr with nothing but the gauge on the inlet. A tired pump stalls well above that.</p>
-  <p>Results will be added here when the parts have arrived and the test has run.</p>
+  <p>Results go here when it has run.</p>
 
   <h2>Next</h2>
-  <p>Run the acceptance test. In the meantime the electronics design carries on, since none of it needs a vacuum.</p>
+  <p>Two fittings are still in the post: the bellows hose from the turbo's exhaust and the backing pump's inlet adapter. When they arrive, bolt the pump down, connect the backing line, and run the pump-down. The turbo's return window gives a few weeks to do it. In the meantime the electronics carry on, since none of it needs a vacuum. See the <a href="../electronics.html">electronics page</a>.</p>
 </main>
 
 <footer class="site">

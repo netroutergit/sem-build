@@ -24,7 +24,7 @@
 
 <main class="wide">
   <h1>Electronics</h1>
-  <p class="lede">How the electronics are split up, what talks to what, and the one circuit that is allowed to switch on the high voltage. Nothing on this page has been built yet.</p>
+  <p class="lede">How the electronics are split up, what talks to what, and the one circuit that is allowed to switch on the high voltage. Nothing on this page has been built yet. The first board is drawn and ready to order.</p>
 
   <p class="note">This page is a snapshot of the current design, not a history. The design will change many times before a board is ordered. When it does, the diagrams here are replaced and the reasons rewritten. Last revised October 2026.</p>
 
@@ -67,16 +67,22 @@
   <p>The permit relay is a force-guided safety relay, the kind whose contacts are mechanically linked so that a welded contact shows up on the auxiliary contact instead of silently holding the gun live. The acceptance test for this board is simple: every input, opened in turn, must take the measured high voltage below 50 volts within one second.</p>
 
   <h2>The boards</h2>
-  <p>Six designs, about ten boards once the replicated ones are counted. One board outline and one connector family for all of them. The FPGA and microcontroller are bought modules on custom carriers rather than laid out from scratch.</p>
+  <p>Seven designs, about eleven boards once the replicated ones are counted. One board outline and one connector family for all of them. The FPGA and microcontroller are bought modules on custom carriers rather than laid out from scratch.</p>
   <table>
     <tr><th>Board</th><th>What it does</th></tr>
-    <tr><td>Interlock chain</td><td>The relay logic above. No firmware. The first board to be drawn.</td></tr>
+    <tr><td>Interlock chain</td><td>The relay logic above. No firmware. Drawn, laid out and routed, 120 by 100 mm, and ready for the board house. Pictured below.</td></tr>
+    <tr><td>Vacuum interface</td><td>Where the turbo pump's cable and the gauge's cable come through the wall of the machine box. Two fuses, a surge clamp on every line that leaves the box, and plugs out to the supply, the interlock board and the controller. Nothing active on it. Drawn and routed.</td></tr>
     <tr><td>Controller carrier</td><td>The microcontroller, its power, and the connectors to the gauge, turbo, valves and panel.</td></tr>
     <tr><td>Scan and acquisition</td><td>Digital-to-analog converters for the scan coils, the detector analog-to-digital converter, and the FPGA carrier.</td></tr>
     <tr><td>Coil driver, replicated</td><td>A precision current source. One per lens, stigmator and alignment coil, because a lens current that wanders by a part in ten thousand moves the focus.</td></tr>
     <tr><td>Floating filament supply</td><td>Heats the filament while sitting at 15 kV below ground. See below.</td></tr>
     <tr><td>Detector front end, replicated</td><td>A low-noise amplifier for the specimen current and the backscatter diode, later the photomultiplier electronics.</td></tr>
   </table>
+
+  <figure>
+    <img src="img/interlock-board.jpg" alt="Rendered top view of the interlock chain board: a row of twelve red LEDs along the top edge, green pluggable terminal blocks on three sides, relays in the middle, and a slot down the right-hand side isolating the status outputs">
+    <figcaption>The interlock board, rendered from the layout. The row of LEDs along the top shows each link in the chain, so the first dark one names the open link. The slot down the right-hand side is a gap in the board itself: the status copies that go to the controller cross it through optocouplers, so nothing on the controller side can reach back into the chain.</figcaption>
+  </figure>
 
   <h2>Decisions, and the reasons behind them</h2>
   <ul>
